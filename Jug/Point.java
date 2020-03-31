@@ -1,27 +1,60 @@
+import java.util.*;
 
 public class Point {
    public int i,j;
    boolean visited=false;
-   Edge[] edge = new Edge [6];
+   Vector <Edge> vector = new Vector();
+   
    public Point(int i,int j, int i_max ,int j_max) {
 	   this.i=i;
 	   this.j=j;
 	   
-	   edge[0] = new Edge(i_max,j);
-	   edge[1] = new Edge(i,j_max);
-		
-	   edge[2] = new Edge(0,j);
-	   edge[3] = new Edge(i,0);
+	   //наполнение первого кувшина
+	   int new_i = i_max, new_j = j;
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
 	   
-	   if(j+i-j_max >= 0)
-	         edge[4] = new Edge(j+i-j_max,j_max);
-	    else
-		     edge[4] = new Edge(0,j+i);  
+	   //наполнение второго кувшина
+	   new_i = i; new_j = j_max;
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
 	   
-	   if(j+i-i_max >= 0)
-		     edge[5] = new Edge(i_max,j+i-i_max);
-		else
-			 edge[5] = new Edge(j+i,i); 
+	   //слив первого кувшина
+	   new_i = 0; new_j = j;
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
+	   
+	   //слив второго кувшина
+	   new_i = i; new_j = 0;
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
+	   
+	   //перевливание из первого кувшина во второй
+	   new_i = j+i-j_max; new_j = 0;
+	   if(new_i >= 0) {
+		   new_i = new_i ; 
+		   new_j=j_max;
+	   }
+	    else {
+	    	new_i = 0;
+	    	new_j = j+i;
+	    }
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
+	   
+	   
+	   //перевливание из первого кувшина во второй
+	   new_i = 0; new_j = j+i-i_max;
+	   if(new_j >= 0) {
+		   new_j = new_j ; 
+		   new_i=i_max;
+	   }
+		else {
+			new_i = j+i;
+	    	new_j = 0;
+		}
+	   if(new_i != i || new_j !=j)
+		   vector.add(new Edge(new_i,new_j));
 	   
    }
 }
